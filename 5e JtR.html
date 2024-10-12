@@ -1,4 +1,4 @@
-<div class=".sheet-JtR">
+<div class="sheet-JtR">
 	<input class="monster_confirm_flag" type="hidden" name="attr_monster_confirm_flag">
 	<div class="licensecontainer compendium-drop-target monsters">
 		<input class="sheet-toggle-npc" name="attr_npc" type="hidden" value="0">
@@ -146,6 +146,10 @@
 									<input type="text" name="attr_npc_arcana_base">
 								</div>
 								<div class="sheet-form-group">
+									<label>Asatru</label>
+									<input type="text" name="attr_npc_asatru_base">
+								</div>
+								<div class="sheet-form-group">
 									<label>Athletics</label>
 									<input type="text" name="attr_npc_athletics_base">
 								</div>
@@ -208,6 +212,7 @@
 								<input type="hidden" name="attr_npc_acrobatics" value="@{dexterity_mod}">
 								<input type="hidden" name="attr_npc_animal_handling" value="@{wisdom_mod}">
 								<input type="hidden" name="attr_npc_arcana" value="@{intelligence_mod}">
+								<input type="hidden" name="attr_npc_Asatru" value="@{wisdom_mod}">
 								<input type="hidden" name="attr_npc_athletics" value="@{strength_mod}">
 								<input type="hidden" name="attr_npc_deception" value="@{charisma_mod}">
 								<input type="hidden" name="attr_npc_history" value="@{intelligence_mod}">
@@ -487,6 +492,13 @@
 								<button type="roll" name="roll_npc_arcana" value="@{wtype}&{template:npc} @{npc_name_flag} {{rname=Arcana}} {{mod=@{npc_arcana}}} {{r1=[[@{d20}+@{npc_arcana}]]}} @{rtype}+@{npc_arcana}]]}} {{type=Skill}}">
 									<span>Arcana</span>
 									<span name="attr_npc_arcana"></span>
+								</button>
+							</span>
+							<span>
+								<input type="hidden" name="attr_npc_asatru_flag" value="0" class="sheet-field-toggle">
+								<button type="roll" name="roll_npc_asatru" value="@{wtype}&{template:npc} @{npc_name_flag} {{rname=asatru}} {{mod=@{npc_asatru}}} {{r1=[[@{d20}+@{npc_asatru}]]}} @{rtype}+@{npc_asatru}]]}} {{type=Skill}}">
+									<span>Asatru</span>
+									<span name="attr_npc_asatru"></span>
 								</button>
 							</span>
 							<span>
@@ -927,7 +939,7 @@
 				</div>
 			</div>
 			<div class="sheet-section-npc-footer">
-				<p>Giffyglyph's D&D 5e Character Sheet & Trackers</p>
+				<p>Giffyglyph's D&D 5e Character Sheet & Trackers - Edited by SkellyVamps</p>
 			</div>
 		</div>
 		<div class="sheet-section-pc">
@@ -1096,7 +1108,18 @@
 										</div>
 									</div>
 								</div>
-								<div class="sheet-container-bar sheet-container-bar-left sheet-pc-proficiency-bonus">
+								<div class="sheet-container-insperation sheet-container-insperation-left sheet-pc-inspiration">
+									<div class="sheet-container-header">
+										<span>Inspiration</span>
+									</div>
+									<div class="sheet-container-body">
+										<div class="sheet-checkbox-image-nobg">
+											<input type="checkbox" name="attr_inspiration" title="@{inspiration}">
+											<span></span>
+										</div>
+									</div>
+								</div>
+								<div class="sheet-container-counter sheet-container-counter-left sheet-pc-proficiency-bonus">
 									<div class="sheet-container-header">
 										<span>Proficiency Bonus</span>
 									</div>
@@ -1246,6 +1269,22 @@
 												<option value="Constitution">Con</option>
 												<option value="Intelligence" selected="selected">Int</option>
 												<option value="Wisdom">Wis</option>
+												<option value="Charisma">Cha</option>
+											</select>
+										</div>
+										<div class="sheet-pc-skill sheet-pc-skill-asatru">
+											<div class="sheet-checkbox-image">
+												<input type="checkbox" name="attr_asatru_prof" title="@{asatru_prof}" value="(@{pb}*@{asatru_type})">
+												<span></span>
+											</div>
+											<span name='attr_asatru_bonus' title='@{asatru_bonus}'>0</span>
+											<button type='roll' name='roll_asatru' value='@{wtype}&{template:simple} {{rname=@{asatru_attribute} (Asatru)}} {{mod=@{asatru_bonus}}} {{r1=[[@{d20}+@{asatru_bonus}@{pbd_safe}]]}} @{rtype}+@{asatru_bonus}@{pbd_safe}]]}} {{global=@{global_skill_mod}}} @{charname_output}'>Asatru</button>
+											<select name="attr_asatru_attribute" title="@{asatru_attribute}">
+												<option value="Strength">Str</option>
+												<option value="Dexterity">Dex</option>
+												<option value="Constitution">Con</option>
+												<option value="Intelligence">Int</option>
+												<option value="Wisdom" selected="selected">Wis</option>
 												<option value="Charisma">Cha</option>
 											</select>
 										</div>
@@ -1657,8 +1696,8 @@
 										<span name="attr_initiative_bonus" title="@{initiative_bonus}"></span>
 									</div>
 								</div>
-								<div class="sheet-container-box sheet-pc-perception">
-									<div class="sheet-container-header">Passive Perception</div>
+								<div class="sheet-container-perception sheet-container-perception-left sheet-pc-perception">
+									<div class="sheet-container-header">Passive Wisdom (Perception)</div>
 									<div class="sheet-container-body">
 										<input type="text" name="attr_passive_wisdom" title="@{passive_wisdom}" value="(10+@{perception_bonus}+@{passiveperceptionmod})" disabled="true" hidden>
 										<span name="attr_passive_wisdom" title="@{passive_wisdom}"></span>
@@ -1670,38 +1709,11 @@
 										<input type="text" name="attr_speed" title="@{speed}">
 									</div>
 								</div>
-								<div class="sheet-container-bar sheet-pc-fate">
-									<div class="sheet-container-header">Fate</div>
+								<div class="sheet-container-asatru sheet-container-asatru-left sheet-pc-asatru">
+									<div class="sheet-container-header">Passive Wisdom (Asatru)</div>
 									<div class="sheet-container-body">
-										<div class="sheet-checkbox-image">
-											<input type="checkbox" name="attr_fate_1" title="@{fate_1}">
-											<span></span>
-										</div>
-										<div class="sheet-checkbox-image">
-											<input type="checkbox" name="attr_fate_2" title="@{fate_2}">
-											<span></span>
-										</div>
-										<div class="sheet-checkbox-image">
-											<input type="checkbox" name="attr_fate_3" title="@{fate_3}">
-											<span></span>
-										</div>
-									</div>
-								</div>
-								<div class="sheet-container-bar sheet-pc-inspiration">
-									<div class="sheet-container-header">Inspiration</div>
-									<div class="sheet-container-body">
-										<div class="sheet-checkbox-image">
-											<input type="checkbox" name="attr_inspiration_1" title="@{inspiration_1}">
-											<span></span>
-										</div>
-										<div class="sheet-checkbox-image">
-											<input type="checkbox" name="attr_inspiration_2" title="@{inspiration_2}">
-											<span></span>
-										</div>
-										<div class="sheet-checkbox-image">
-											<input type="checkbox" name="attr_inspiration_3" title="@{inspiration_3}">
-											<span></span>
-										</div>
+										<input type="text" name="attr_passive_wisdom_a" title="@{passive_wisdom_a}" value="(10+@{asatru_bonus}+@{passiveperceptionmod})" disabled="true" hidden>
+										<span name="attr_passive_wisdom_a" title="@{passive_wisdom_a}"></span>
 									</div>
 								</div>
 							</div>
@@ -1877,260 +1889,6 @@
 													</div>
 												</div>
 											</fieldset>
-										</div>
-									</div>
-								</div>
-								<input type="hidden" name="attr_show_survival_conditions" value="1" class="sheet-field-toggle">
-								<div class="sheet-container-well sheet-container-well-conditions">
-									<div class="sheet-container-panel sheet-pc-conditions">
-										<div class="sheet-container-header">
-											<span>Hunger</span>
-											<span>Thirst</span>
-											<span>Fatigue</span>
-											<span>Temperature</span>
-										</div>
-										<div class="sheet-container-body">
-											<ul class="sheet-list-conditions">
-												<li>
-													<label class="sheet-radio">
-														<input type="radio" name="attr_condition_hunger" value="0" title="@{condition_hunger}">
-														<span title="@{condition_hunger}">Stuffed</span>
-													</label>
-												</li>
-												<li>
-													<label class="sheet-radio">
-														<input type="radio" name="attr_condition_hunger" value="1" title="@{condition_hunger}">
-														<span title="@{condition_hunger}">Well-fed</span>
-													</label>
-												</li>
-												<li>
-													<label class="sheet-radio">
-														<input type="radio" name="attr_condition_hunger" value="2" checked="checked" title="@{condition_hunger}">
-														<span title="@{condition_hunger}">Ok</span>
-													</label>
-												</li>
-												<li>
-													<label class="sheet-radio">
-														<input type="radio" name="attr_condition_hunger" value="3" title="@{condition_hunger}">
-														<span title="@{condition_hunger}">Peckish</span>
-													</label>
-												</li>
-												<li>
-													<label class="sheet-radio">
-														<input type="radio" name="attr_condition_hunger" value="4" title="@{condition_hunger}">
-														<span title="@{condition_hunger}">Hungry</span>
-													</label>
-												</li>
-												<li>
-													<label class="sheet-radio">
-														<input type="radio" name="attr_condition_hunger" value="5" title="@{condition_hunger}">
-														<span title="@{condition_hunger}">Ravenous</span>
-													</label>
-												</li>
-												<li>
-													<label class="sheet-radio">
-														<input type="radio" name="attr_condition_hunger" value="6" title="@{condition_hunger}">
-														<span title="@{condition_hunger}">Starving</span>
-													</label>
-												</li>
-											</ul>
-											<ul class="sheet-list-conditions">
-												<li>
-													<label class="sheet-radio">
-														<input type="radio" name="attr_condition_thirst" value="0" title="@{condition_thirst}">
-														<span title="@{condition_thirst}">Quenched</span>
-													</label>
-												</li>
-												<li>
-													<label class="sheet-radio">
-														<input type="radio" name="attr_condition_thirst" value="1" title="@{condition_thirst}">
-														<span title="@{condition_thirst}">Refreshed</span>
-													</label>
-												</li>
-												<li>
-													<label class="sheet-radio">
-														<input type="radio" name="attr_condition_thirst" value="2" checked="checked" title="@{condition_thirst}">
-														<span title="@{condition_thirst}">Ok</span>
-													</label>
-												</li>
-												<li>
-													<label class="sheet-radio">
-														<input type="radio" name="attr_condition_thirst" value="3" title="@{condition_thirst}">
-														<span title="@{condition_thirst}">Parched</span>
-													</label>
-												</li>
-												<li>
-													<label class="sheet-radio">
-														<input type="radio" name="attr_condition_thirst" value="4" title="@{condition_thirst}">
-														<span title="@{condition_thirst}">Thirsty</span>
-													</label>
-												</li>
-												<li>
-													<label class="sheet-radio">
-														<input type="radio" name="attr_condition_thirst" value="5" title="@{condition_thirst}">
-														<span title="@{condition_thirst}">Dry</span>
-													</label>
-												</li>
-												<li>
-													<label class="sheet-radio">
-														<input type="radio" name="attr_condition_thirst" value="6" title="@{condition_thirst}">
-														<span title="@{condition_thirst}">Dehydrated</span>
-													</label>
-												</li>
-											</ul>
-											<ul class="sheet-list-conditions">
-												<li>
-													<label class="sheet-radio">
-														<input type="radio" name="attr_condition_fatigue" value="0" title="@{condition_fatigue}">
-														<span title="@{condition_fatigue}">Energised</span>
-													</label>
-												</li>
-												<li>
-													<label class="sheet-radio">
-														<input type="radio" name="attr_condition_fatigue" value="1" title="@{condition_fatigue}">
-														<span title="@{condition_fatigue}">Well-rested</span>
-													</label>
-												</li>
-												<li>
-													<label class="sheet-radio">
-														<input type="radio" name="attr_condition_fatigue" value="2" checked="checked" title="@{condition_fatigue}">
-														<span title="@{condition_fatigue}">Ok</span>
-													</label>
-												</li>
-												<li>
-													<label class="sheet-radio">
-														<input type="radio" name="attr_condition_fatigue" value="3" title="@{condition_fatigue}">
-														<span title="@{condition_fatigue}">Tired</span>
-													</label>
-												</li>
-												<li>
-													<label class="sheet-radio">
-														<input type="radio" name="attr_condition_fatigue" value="4" title="@{condition_fatigue}">
-														<span title="@{condition_fatigue}">Sleepy</span>
-													</label>
-												</li>
-												<li>
-													<label class="sheet-radio">
-														<input type="radio" name="attr_condition_fatigue" value="5" title="@{condition_fatigue}">
-														<span title="@{condition_fatigue}">Very sleepy</span>
-													</label>
-												</li>
-												<li>
-													<label class="sheet-radio">
-														<input type="radio" name="attr_condition_fatigue" value="6" title="@{condition_fatigue}">
-														<span title="@{condition_fatigue}">Barely awake</span>
-													</label>
-												</li>
-											</ul>
-											<ul class="sheet-list-conditions">
-												<li>
-													<label class="sheet-radio">
-														<input type="radio" name="attr_condition_temperature" value="0" title="@{condition_temperature}">
-														<span title="@{condition_temperature}">Perfect</span>
-													</label>
-												</li>
-												<li>
-													<label class="sheet-radio">
-														<input type="radio" name="attr_condition_temperature" value="1" title="@{condition_temperature}">
-														<span title="@{condition_temperature}">Comfortable</span>
-													</label>
-												</li>
-												<li>
-													<label class="sheet-radio">
-														<input type="radio" name="attr_condition_temperature" value="2" checked="checked" title="@{condition_temperature}">
-														<span title="@{condition_temperature}">Ok</span>
-													</label>
-												</li>
-												<li>
-													<label class="sheet-radio">
-														<input type="radio" name="attr_condition_temperature" value="3" title="@{condition_temperature}">
-														<span title="@{condition_temperature}">Noticable</span>
-													</label>
-												</li>
-												<li>
-													<label class="sheet-radio">
-														<input type="radio" name="attr_condition_temperature" value="4" title="@{condition_temperature}">
-														<span title="@{condition_temperature}">Uncomfortable</span>
-													</label>
-												</li>
-												<li>
-													<label class="sheet-radio">
-														<input type="radio" name="attr_condition_temperature" value="5" title="@{condition_temperature}">
-														<span title="@{condition_temperature}">Overwhelming</span>
-													</label>
-												</li>
-												<li>
-													<label class="sheet-radio">
-														<input type="radio" name="attr_condition_temperature" value="6" title="@{condition_temperature}">
-														<span title="@{condition_temperature}">Unbearable</span>
-													</label>
-												</li>
-											</ul>
-										</div>
-									</div>
-									<div class="sheet-container-bar sheet-pc-rations">
-										<div class="sheet-container-header">Rations</div>
-										<div class="sheet-container-body">
-											<div class="sheet-checkbox-image">
-												<input type="checkbox" name="attr_ration_1" title="@{ration_1}">
-												<span></span>
-											</div>
-											<div class="sheet-checkbox-image">
-												<input type="checkbox" name="attr_ration_2" title="@{ration_2}">
-												<span></span>
-											</div>
-											<div class="sheet-checkbox-image">
-												<input type="checkbox" name="attr_ration_3" title="@{ration_3}">
-												<span></span>
-											</div>
-											<div class="sheet-checkbox-image">
-												<input type="checkbox" name="attr_ration_4" title="@{ration_4}">
-												<span></span>
-											</div>
-											<div class="sheet-checkbox-image">
-												<input type="checkbox" name="attr_ration_5" title="@{ration_5}">
-												<span></span>
-											</div>
-										</div>
-									</div>
-									<div class="sheet-container-bar sheet-pc-water">
-										<div class="sheet-container-header">Waterskin</div>
-										<div class="sheet-container-body">
-											<div class="sheet-checkbox-image">
-												<input type="checkbox" name="attr_waterskin_1" title="@{waterskin_1}">
-												<span></span>
-											</div>
-											<div class="sheet-checkbox-image">
-												<input type="checkbox" name="attr_waterskin_2" title="@{waterskin_2}">
-												<span></span>
-											</div>
-											<div class="sheet-checkbox-image">
-												<input type="checkbox" name="attr_waterskin_3" title="@{waterskin_3}">
-												<span></span>
-											</div>
-											<div class="sheet-checkbox-image">
-												<input type="checkbox" name="attr_waterskin_4" title="@{waterskin_4}">
-												<span></span>
-											</div>
-											<div class="sheet-checkbox-image">
-												<input type="checkbox" name="attr_waterskin_5" title="@{waterskin_5}">
-												<span></span>
-											</div>
-										</div>
-									</div>
-									<div class="sheet-container-box sheet-pc-exhaustion">
-										<div class="sheet-container-header">Exhaustion</div>
-										<div class="sheet-container-body">
-											<input type="text" name="attr_exhaustion_base" title="@{exhaustion_base}" value="0">
-											<span name="attr_exhaustion_wounds" title="@{exhaustion_wounds}"></span>
-											<span name="attr_exhaustion_conditions" title="@{exhaustion_conditions}"></span>
-											<span name="attr_exhaustion_total" title="@{exhaustion_total}"></span>
-										</div>
-										<div class="sheet-container-footer">
-											<span>Base</span>
-											<span>Wounds</span>
-											<span>Cond.</span>
-											<span>Total</span>
 										</div>
 									</div>
 								</div>
@@ -2554,99 +2312,6 @@
 								</div>
 							</div>
 							<div class="sheet-container-effects">
-								<input type="hidden" name="attr_show_stress_flag" value="1" class="sheet-field-toggle">
-								<div class="sheet-container-well sheet-container-well-stress">
-									<div class="sheet-container-box sheet-pc-stress">
-										<div class="sheet-container-header">Stress</div>
-										<div class="sheet-container-body">
-											<span name="attr_stress_max" class="sheet-calculated sheet-hidden">40</span>
-											<input type="text" name="attr_stress" title="@{stress}" value="0">
-										</div>
-									</div>
-									<div class="sheet-container-panel sheet-pc-stress-levels">
-										<div class="sheet-container-header">Stress Levels</div>
-										<div class="sheet-container-body">
-											<ul>
-												<li>
-													<label class="sheet-checkbox">
-														<input type="checkbox" name="attr_stress_state_20" value="1" title="@{stress_state_20}">
-														<span title="@{stress_state_20}"><strong>20:</strong> Affliction</span>
-													</label>
-												</li>
-												<li>
-													<label class="sheet-checkbox">
-														<input type="checkbox" name="attr_stress_state_30" value="1" title="@{stress_state_30}">
-														<span title="@{stress_state_30}"><strong>30:</strong> Affliction</span>
-													</label>
-												</li>
-												<li>
-													<label class="sheet-checkbox">
-														<input type="checkbox" name="attr_stress_state_35" value="1" title="@{stress_state_35}">
-														<span title="@{stress_state_35}"><strong>35:</strong> Affliction</span>
-													</label>
-												</li>
-												<li>
-													<label class="sheet-checkbox">
-														<input type="checkbox" name="attr_stress_state_40" value="1" title="@{stress_state_40}">
-														<span title="@{stress_state_40}"><strong>40:</strong> Breakpoint</span>
-													</label>
-												</li>
-											</ul>
-										</div>
-									</div>
-									<div class="sheet-container-panel sheet-pc-afflictions">
-										<div class="sheet-container-header">Afflictions</div>
-										<div class="sheet-container-body">
-											<div class="sheet-container-body-header">
-												<span>Affliction</span>
-												<span>Effect</span>
-											</div>
-											<fieldset class="repeating_afflictions">
-												<div class="sheet-fieldset-item">
-													<div class="sheet-checkbox-cog">
-														<input type="checkbox" name="attr_options-flag" checked="checked"><span></span>
-														<span class="sheet-toggle-icon"></span>
-													</div>
-													<input type="checkbox" name="attr_options-flag" checked="checked" class="sheet-toggle" hidden>
-													<div class="sheet-toggle-checked">
-														<div class="sheet-form">
-															<div class="sheet-form-header">Edit Affliction</div>
-															<div class="sheet-form-body">
-																<div class="sheet-form-group">
-																	<select name="attr_affliction">
-																		<option value="Acute: Advantage on INT checks/saves">Acute</option>
-																		<option value="Anxiety: Disadvantage on Stress checks">Anxiety</option>
-																		<option value="Courageous: Advantage on CHA checks/saves">Courageous</option>
-																		<option value="Fearful: Disadvantage on WIS checks/saves">Fearful</option>
-																		<option value="Focused: +2 to all attack rolls">Focused</option>
-																		<option value="Hopelessness: Disadvantage on STR checks/saves">Hopelessness</option>
-																		<option value="Hypochondria: Hit point maximum is halved">Hypochondria</option>
-																		<option value="Irrational: Disadvantage on INT checks/saves">Irrational</option>
-																		<option value="Lethargic: +1 exhaustion until removed">Lethargic</option>
-																		<option value="Mania: Disadvantage on attack rolls">Mania</option>
-																		<option value="Masochistic: Disadvantage on CON checks/saves">Masochistic</option>
-																		<option value="Narcissistic: Disadvantage on ability checks">Narcissistic</option>
-																		<option value="Panic: Disadvantage on DEX checks/saves">Panic</option>
-																		<option value="Paranoid: Speed is halved">Paranoid</option>
-																		<option value="Perceptive: Advantage on WIS checks/saves">Perceptive</option>
-																		<option value="Powerful: +2 to all damage rolls">Powerful</option>
-																		<option value="Selfish: Disadvantage on CHA checks/saves">Selfish</option>
-																		<option value="Stalwart: +2 AC">Stalwart</option>
-																	</select>
-																</div>
-															</div>
-														</div>
-													</div>
-													<div class="sheet-toggle-unchecked">
-														<div class="sheet-pc-affliction">
-															<span name="attr_affliction"></span>
-														</div>
-													</div>
-												</div>
-											</fieldset>
-										</div>
-									</div>
-								</div>
 								<div class="sheet-container-well sheet-container-well-effects">
 									<input type="hidden" name="attr_show_exhaustion_flag" value="1" class="sheet-field-toggle">
 									<div class="sheet-container-panel sheet-pc-exhaustion-details">
@@ -2933,12 +2598,6 @@
 								</div>
 							</div>
 							<div class="sheet-container-well sheet-container-well-memories">
-								<div class="sheet-container-bar sheet-pc-xp">
-									<div class="sheet-container-header">Experience</div>
-									<div class="sheet-container-body">
-										<input type="text" name="attr_experience" title="@{experience}">
-									</div>
-								</div>
 								<div class="sheet-container-bar sheet-pc-training">
 									<div class="sheet-container-header">Training</div>
 									<div class="sheet-container-body">
@@ -6305,7 +5964,7 @@
 									</div>
 								</div>
 								<div class="sheet-container-panel sheet-pc-option-gdd">
-									<div class="sheet-container-header">Giffyglyph's Darker Dungeons</div>
+									<div class="sheet-container-header">Skelly's Journey To Ragnarok</div>
 									<div class="sheet-container-body">
 										<div class="sheet-form sheet-form-borderless">
 											<div class="sheet-form-body">
@@ -6319,18 +5978,6 @@
 													<label class="sheet-form-checkbox" title="@{show_exhaustion_flag}">
 														<input type="checkbox" name="attr_show_exhaustion_flag" value="1" checked="checked">
 														<span>Show Exhaustion Table</span>
-													</label>
-												</div>
-												<div class="sheet-form-group">
-													<label class="sheet-form-checkbox" title="@{show_stress_flag}">
-														<input type="checkbox" name="attr_show_stress_flag" value="1" checked="checked">
-														<span>Show Stress & Afflictions</span>
-													</label>
-												</div>
-												<div class="sheet-form-group">
-													<label class="sheet-form-checkbox" title="@{show_survival_conditions}">
-														<input type="checkbox" name="attr_show_survival_conditions" value="1" checked="checked">
-														<span>Show Survival Conditions</span>
 													</label>
 												</div>
 												<div class="sheet-form-group">
@@ -6544,6 +6191,14 @@
 													</select>
 												</div>
 												<div class="sheet-form-group">
+													<label>Asatru Modifier:</label>
+													<input type="text" name="attr_asatru_flat" placeholder="0" title="@{asatru_flat}">
+													<select name="attr_asatru_type" title="@{asatru_type}">
+														<option value="1" selected="selected">Normal</option>
+														<option value="2">Expertise</option>
+													</select>
+												</div>
+												<div class="sheet-form-group">
 													<label>Athletics Modifier:</label>
 													<input type="text" name="attr_athletics_flat" placeholder="0" title="@{athletics_flat}">
 													<select name="attr_athletics_type" title="@{athletics_type}">
@@ -6683,7 +6338,7 @@
 				</div>
 			</div>
 			<div class="sheet-section-pc-footer">
-				<p>Giffyglyph's D&D 5e Character Sheet & Trackers</p>
+				<p>Giffyglyph's D&D 5e Character Sheet & Trackers - Edited by SkellyVamps</p>
 			</div>
 		</div>
 		<div class="sheet-section-fields">
@@ -6695,6 +6350,7 @@
 			<input type="hidden" name="attr_jack_attr" value="">
 			<input type="hidden" name="attr_jack_bonus" value="">
 			<input type="hidden" name="attr_passive_wisdom" value="10">
+			<input type="hidden" name="attr_passive_wisdom_a" value="10">
 			<input type="hidden" name="attr_hitdie_final" value="">
 			<input type="hidden" name="attr_globalsavingthrowbonus" value="">
 			<input type="hidden" name="attr_death_save_bonus" value="0">
@@ -6720,7 +6376,6 @@
 			<input type="hidden" name="attr_exhaustion_conditions" value="0">
 			<input type="hidden" name="attr_exhaustion_total" value="0">
 			<input type="hidden" name="attr_exhaustion_status" value="0">
-			<input type="hidden" name="attr_stress" value="0">
 			<input type="hidden" name="attr_strength_mod" value="0">
 			<input type="hidden" name="attr_dexterity_mod" value="0">
 			<input type="hidden" name="attr_constitution_mod" value="0">
@@ -6742,6 +6397,7 @@
 			<input type='hidden' name='attr_acrobatics_bonus' value='0'>
 			<input type='hidden' name='attr_animal_handling_bonus' value='0'>
 			<input type='hidden' name='attr_arcana_bonus' value='0'>
+			<input type='hidden' name='attr_asatru_bonus' value='0'>
 			<input type='hidden' name='attr_athletics_bonus' value='0'>
 			<input type='hidden' name='attr_deception_bonus' value='0'>
 			<input type='hidden' name='attr_history_bonus' value='0'>
@@ -6768,7 +6424,6 @@
 			<input type='hidden' name='attr_lvl9_slots_total' value='0'>
 			<input type='hidden' name='attr_show_death_failures_flag' value='1'>
 			<input type='hidden' name='attr_show_exhaustion_flag' value='1'>
-			<input type='hidden' name='attr_show_stress_flag' value='1'>
 			<input type='hidden' name='attr_show_survival_conditions' value='1'>
 			<input type='hidden' name='attr_use_inventory_slots' value='1'>
 			<input type='hidden' name='attr_use_intelligent_initiative' value='1'>
@@ -7830,7 +7485,7 @@
 							update_initiative();
 							break;
 						case "wisdom":
-							update_skills(["animal_handling", "insight", "medicine", "perception", "survival"]);
+							update_skills(["animal_handling", "asatru", "insight", "medicine", "perception", "survival"]);
 							break;
 						case "charisma":
 							update_skills(["deception", "intimidation", "performance", "persuasion"]);
@@ -7864,7 +7519,7 @@
 				update_save("death");
 			});
 
-			['acrobatics', 'animal_handling', 'arcana', 'athletics', 'deception', 'history', 'insight', 'intimidation', 'investigation', 'medicine', 'nature', 'perception', 'performance', 'persuasion', 'religion', 'sleight_of_hand', 'stealth', 'survival'].forEach(attr => {
+			['acrobatics', 'animal_handling', 'arcana', 'asatru', 'athletics', 'deception', 'history', 'insight', 'intimidation', 'investigation', 'medicine', 'nature', 'perception', 'performance', 'persuasion', 'religion', 'sleight_of_hand', 'stealth', 'survival'].forEach(attr => {
 				on(`change:${attr}_prof change:${attr}_type change:${attr}_flat change:${attr}_attribute`, function(eventinfo) {
 					if (eventinfo.sourceType === "sheetworker") {
 						return;
@@ -8240,7 +7895,7 @@
 				update_npc_saves();
 			});
 
-			on("change:npc_acrobatics_base change:npc_animal_handling_base change:npc_arcana_base change:npc_athletics_base change:npc_deception_base change:npc_history_base change:npc_insight_base change:npc_intimidation_base change:npc_investigation_base change:npc_medicine_base change:npc_nature_base change:npc_perception_base change:npc_performance_base change:npc_persuasion_base change:npc_religion_base change:npc_sleight_of_hand_base change:npc_stealth_base change:npc_survival_base", function(eventinfo) {
+			on("change:npc_acrobatics_base change:npc_animal_handling_base change:npc_arcana_base change:npc_asatru_base change:npc_athletics_base change:npc_deception_base change:npc_history_base change:npc_insight_base change:npc_intimidation_base change:npc_investigation_base change:npc_medicine_base change:npc_nature_base change:npc_perception_base change:npc_performance_base change:npc_persuasion_base change:npc_religion_base change:npc_sleight_of_hand_base change:npc_stealth_base change:npc_survival_base", function(eventinfo) {
 				update_npc_skills();
 			});
 
@@ -8340,6 +7995,7 @@
 
 			on("change:passiveperceptionmod", function(eventinfo) {
 				update_passive_perception();
+				update_passive_asatru();
 			});
 
 			on("remove:repeating_inventory", function(eventinfo) {
@@ -8532,7 +8188,7 @@
 
 			var update_all_ability_checks = function() {
 				update_initiative();
-				update_skills(["athletics", "acrobatics", "sleight_of_hand", "stealth", "arcana", "history", "investigation", "nature", "religion", "animal_handling", "insight", "medicine", "perception", "survival", "deception", "intimidation", "performance", "persuasion"]);
+				update_skills(["athletics", "acrobatics", "sleight_of_hand", "stealth", "arcana", "asatru", "history", "investigation", "nature", "religion", "animal_handling", "insight", "medicine", "perception", "survival", "deception", "intimidation", "performance", "persuasion"]);
 			};
 
 			var update_skills = function(skills_array) {
@@ -8543,6 +8199,12 @@
 				if (skills_array.indexOf("perception") > -1) {
 					callbacks.push(function() {
 						update_passive_perception();
+					})
+				};
+
+				if (skills_array.indexOf("asatru") > -1) {
+					callbacks.push(function() {
+						update_passive_asatru();
 					})
 				};
 
@@ -9402,6 +9064,7 @@
 					update["npc_acrobatics_base"] = "";
 					update["npc_animal_handling_base"] = "";
 					update["npc_arcana_base"] = "";
+					update["npc_asatru_base"] = "";
 					update["npc_athletics_base"] = "";
 					update["npc_deception_base"] = "";
 					update["npc_history_base"] = "";
@@ -10454,6 +10117,9 @@
 					};
 					if (mod.indexOf("arcana") > -1) {
 						update_skills(["arcana"]);
+					};
+					if (mod.indexOf("asatru") > -1) {
+						update_skills(["asatru"]);
 					};
 					if (mod.indexOf("athletics") > -1) {
 						update_skills(["athletics"]);
@@ -12295,7 +11961,7 @@
 						update_all_saves();
 					});
 					callbacks.push(function() {
-						update_skills(["athletics", "acrobatics", "sleight_of_hand", "stealth", "arcana", "history", "investigation", "nature", "religion", "animal_handling", "insight", "medicine", "perception", "survival", "deception", "intimidation", "performance", "persuasion"]);
+						update_skills(["athletics", "acrobatics", "sleight_of_hand", "stealth", "arcana", "asatru", "history", "investigation", "nature", "religion", "animal_handling", "insight", "medicine", "perception", "survival", "deception", "intimidation", "performance", "persuasion"]);
 					});
 
 					setAttrs(update, {
@@ -12409,6 +12075,25 @@
 					passive_perception = passive_perception + bonus + mod;
 					setAttrs({
 						passive_wisdom: passive_perception
+					})
+				});
+			};
+
+			var update_passive_asatru = function() { //asatru
+				getAttrs(["pb_type", "passiveperceptionmod", "asatru_bonus"], function(v) {
+					var passive_asatru = 10;
+					var mod = !isNaN(parseInt(v["passiveperceptionmod"], 10)) ? parseInt(v["passiveperceptionmod"], 10) : 0;
+					var bonus = !isNaN(parseInt(v["asatru_bonus"], 10)) ? parseInt(v["asatru_bonus"], 10) : 0;
+					if (v["pb_type"] && v["pb_type"] === "die" && v["asatru_bonus"] && isNaN(v["asatru_bonus"]) && v["asatru_bonus"].indexOf("+") > -1) {
+						var pieces = v["asatru_bonus"].split(/\+|d/);
+						var base = !isNaN(parseInt(pieces[0], 10)) ? parseInt(pieces[0], 10) : 0;
+						var num_dice = !isNaN(parseInt(pieces[1], 10)) ? parseInt(pieces[1], 10) : 1;
+						var half_pb_die = !isNaN(parseInt(pieces[2], 10)) ? parseInt(pieces[2], 10) / 2 : 2;
+						bonus = base + (num_dice * half_pb_die);
+					}
+					passive_asatru = passive_asatru + bonus + mod;
+					setAttrs({
+						passive_wisdom_a: passive_asatru
 					})
 				});
 			};
@@ -12712,7 +12397,7 @@
 			};
 
 			var update_npc_skills = function() {
-				getAttrs(["npc_acrobatics_base", "npc_animal_handling_base", "npc_arcana_base", "npc_athletics_base", "npc_deception_base", "npc_history_base", "npc_insight_base", "npc_intimidation_base", "npc_investigation_base", "npc_medicine_base", "npc_nature_base", "npc_perception_base", "npc_performance_base", "npc_persuasion_base", "npc_religion_base", "npc_sleight_of_hand_base", "npc_stealth_base", "npc_survival_base"], function(v) {
+				getAttrs(["npc_acrobatics_base", "npc_animal_handling_base", "npc_arcana_base", "npc_asatru_base", "npc_athletics_base", "npc_deception_base", "npc_history_base", "npc_insight_base", "npc_intimidation_base", "npc_investigation_base", "npc_medicine_base", "npc_nature_base", "npc_perception_base", "npc_performance_base", "npc_persuasion_base", "npc_religion_base", "npc_sleight_of_hand_base", "npc_stealth_base", "npc_survival_base"], function(v) {
 					var update = {};
 					var last_skill = 0;
 					var survival_flag = 0;
@@ -12749,6 +12434,8 @@
 					var athletics = "";
 					var arcana_flag = 0;
 					var arcana = "";
+					var asatru_flag = 0;
+					var asatru = "";
 					var animal_handling_flag = 0;
 					var animal_handling = "";
 					var acrobatics_flag = 0;
@@ -12947,6 +12634,18 @@
 						arcana_flag = 0;
 						arcana = "";
 					};
+					if (v.npc_asatru_base && v.npc_asatru_base != "@{wisdom_mod}") {
+						asatru = parseInt(v.npc_asatru_base, 10);
+						if (last_skill === 0) {
+							last_skill = 1;
+							asatru_flag = asatru < 0 ? 4 : 2;
+						} else {
+							asatru_flag = asatru < 0 ? 3 : 1;
+						}
+					} else {
+						asatru_flag = 0;
+						asatru = "";
+					};
 					if (v.npc_animal_handling_base && v.npc_animal_handling_base != "@{wisdom_mod}") {
 						animal_handling = parseInt(v.npc_animal_handling_base, 10);
 						if (last_skill === 0) {
@@ -12981,6 +12680,8 @@
 					update["npc_animal_handling_flag"] = animal_handling_flag;
 					update["npc_arcana"] = arcana;
 					update["npc_arcana_flag"] = arcana_flag;
+					update["npc_asatru"] = asatru;
+					update["npc_asatru_flag"] = asatru_flag;
 					update["npc_athletics"] = athletics;
 					update["npc_athletics_flag"] = athletics_flag;
 					update["npc_deception"] = deception;
@@ -13462,26 +13163,6 @@
 				});
 			});
 
-			// CHANGE EXHAUSTION
-
-			on("change:exhaustion_base change:exhaustion_wounds change:exhaustion_conditions change:show_survival_conditions", function() {
-				let field1 = "exhaustion_base";
-				let field2 = "exhaustion_wounds";
-				let field3 = "exhaustion_conditions";
-				let field4 = "show_survival_conditions";
-
-				getAttrs([field1, field2, field3, field4], function(v) {
-					let update = {};
-					let exhaustionTotal = clamp(toInt(v[field1]) + toInt(v[field2]) + toInt(v[field3]), 0, 6);
-					update["exhaustion_total"] = exhaustionTotal;
-					if (toInt(v[field4]) == 1) {
-						update["exhaustion_status"] = exhaustionTotal;
-					}
-					setAttrs(update);
-				});
-			});
-
-
 			// CHANGE WOUND TREATMENT
 
 			on("change:repeating_wounds remove:repeating_wounds", function(eventinfo) {
@@ -13509,26 +13190,6 @@
 						setAttrs(update);
 					});
 				});
-			});
-
-			// CHANGE STRESS
-
-			on("change:stress", function(eventinfo) {
-				let stress = toInt(eventinfo.newValue);
-				let update = {};
-				if (stress >= 20) {
-					update["stress_state_20"] = 1;
-				}
-				if (stress >= 30) {
-					update["stress_state_30"] = 1;
-				}
-				if (stress >= 35) {
-					update["stress_state_35"] = 1;
-				}
-				if (stress >= 40) {
-					update["stress_state_40"] = 1;
-				}
-				setAttrs(update);
 			});
 
 			// CHANGE HIT POINTS
